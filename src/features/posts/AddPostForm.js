@@ -1,32 +1,52 @@
 import { useState } from "react";
+
+//save logic for posts onclick on posts
 import { useDispatch, useSelector } from "react-redux";
+import { nanoid } from "@reduxjs/toolkit";
 
 import { postAdded } from "./postsSlice";
-import { selectAllUsers } from "../users/usersSlice";
+//import { selectAllUsers } from "../users/usersSlice";
+
+/*
+element. In this case, the htmlFor attribute is set to "postTitle", indicating that the label is 
+associated with an input field with the id "postTitle".
+*/
 
 const AddPostForm = () => {
     const dispatch = useDispatch()
 
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [userId, setUserId] = useState('')
+    //const [userId, setUserId] = useState('')
 
-    const users = useSelector(selectAllUsers)
+    //const users = useSelector(selectAllUsers)
+
+
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
-    const onAuthorChanged = e => setUserId(e.target.value)
+    //const onAuthorChanged = e => setUserId(e.target.value)
 
+    //function triggered with button to save
     const onSavePostClicked = () => {
+
+        //if we have title and content dispatch postAdded action
         if (title && content) {
+
+            //if we have title and content dispatch postAdded action
             dispatch(
-                postAdded(title, content, userId)
+                //object to be added to posts
+                postAdded({
+                    id: nanoid(),
+                    title, content
+                })
             )
             setTitle('')
             setContent('')
         }
     }
 
+    /*
     const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
 
     const usersOptions = users.map(user => (
@@ -34,6 +54,7 @@ const AddPostForm = () => {
             {user.name}
         </option>
     ))
+    */
 
     return (
         <section>
@@ -47,23 +68,27 @@ const AddPostForm = () => {
                     value={title}
                     onChange={onTitleChanged}
                 />
+                {/*}
                 <label htmlFor="postAuthor">Author:</label>
                 <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
                     <option value=""></option>
                     {usersOptions}
                 </select>
+    */}
                 <label htmlFor="postContent">Content:</label>
+
                 <textarea
                     id="postContent"
                     name="postContent"
                     value={content}
                     onChange={onContentChanged}
                 />
+
                 <button
                     type="button"
                     onClick={onSavePostClicked}
-                    disabled={!canSave}
                 >Save Post</button>
+
             </form>
         </section>
     )
