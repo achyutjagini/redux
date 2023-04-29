@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 
 import { postAdded } from "./postsSlice";
-//import { selectAllUsers } from "../users/usersSlice";
+import { selectAllUsers } from "../users/usersSlice";
 
 /*
 element. In this case, the htmlFor attribute is set to "postTitle", indicating that the label is 
@@ -17,15 +17,15 @@ const AddPostForm = () => {
 
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    //const [userId, setUserId] = useState('')
+    const [userId, setUserId] = useState('')
 
-    //const users = useSelector(selectAllUsers)
+    const users = useSelector(selectAllUsers)
 
 
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
-    //const onAuthorChanged = e => setUserId(e.target.value)
+    const onAuthorChanged = e => setUserId(e.target.value)
 
     //function triggered with button to save
     const onSavePostClicked = () => {
@@ -35,26 +35,29 @@ const AddPostForm = () => {
 
             //if we have title and content dispatch postAdded action
             dispatch(
-                //object to be added to posts
-                postAdded({
-                    id: nanoid(),
-                    title, content
-                })
+
+                //structure of state handled in slice
+                postAdded(title, content, userId)
             )
             setTitle('')
             setContent('')
+            setUserId('')
         }
     }
 
-    /*
+
     const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
 
-    const usersOptions = users.map(user => (
-        <option key={user.id} value={user.id}>
-            {user.name}
-        </option>
-    ))
-    */
+
+
+
+    const usersOptions = users.map(
+        user =>
+        (
+            <option key={user.id} value={user.id}>
+                {user.name}
+            </option>
+        ))
 
     return (
         <section>
@@ -68,13 +71,16 @@ const AddPostForm = () => {
                     value={title}
                     onChange={onTitleChanged}
                 />
-                {/*}
+
                 <label htmlFor="postAuthor">Author:</label>
+
+                {/* select dropdown */}
                 <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
                     <option value=""></option>
                     {usersOptions}
                 </select>
-    */}
+
+
                 <label htmlFor="postContent">Content:</label>
 
                 <textarea
@@ -87,6 +93,7 @@ const AddPostForm = () => {
                 <button
                     type="button"
                     onClick={onSavePostClicked}
+                    disabled={!canSave}
                 >Save Post</button>
 
             </form>

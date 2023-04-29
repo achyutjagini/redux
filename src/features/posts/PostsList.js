@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectAllPosts } from "./postsSlice";
-
+import PostAuthor from "./PostAuthor";
 
 const PostsList = () => {
     //will get empty array if don't add key and reducer in store
@@ -17,6 +17,11 @@ const PostsList = () => {
                     <article key={post.id}>
                         <h3>{post.title}</h3>
                         <p>{post.content.substring(0, 100)}</p>
+
+                        <p className="postCredit">
+                            <PostAuthor userId={post.userId}></PostAuthor>
+                        </p>
+
                     </article>
                 );
             })}

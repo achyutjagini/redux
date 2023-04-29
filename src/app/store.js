@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import postsReducer from '../features/posts/postsSlice'
+import usersReducer from '../features/users/usersSlice'
 //will get empty array if don't add key and reducer in store
 // / needed add the posts slice with the postsReducer function to the store's state.
 
@@ -7,6 +8,7 @@ import postsReducer from '../features/posts/postsSlice'
 
 export const store = configureStore({
     reducer: {
-        posts: postsReducer
+        posts: postsReducer,
+        users: usersReducer
     }
 })
